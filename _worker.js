@@ -10,7 +10,7 @@ let addressescsv = [];
 let DLS = 7;
 let remarkIndex = 1;//CSV备注所在列偏移量
 
-let subConverter = 'SUBAPI.fxxk.dedyn.io';
+let subConverter = 'SUBAPI.cmliussss.net';
 let subConfig = atob('aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2NtbGl1L0FDTDRTU1IvbWFpbi9DbGFzaC9jb25maWcvQUNMNFNTUl9PbmxpbmVfRnVsbF9NdWx0aU1vZGUuaW5p');
 let noTLS = 'false';
 let link;
@@ -692,13 +692,13 @@ export default {
 
 			const newAddressesapi = await 整理优选列表(addressesapi);
 			const newAddressescsv = await 整理测速结果('TRUE');
-			const uniqueAddresses = Array.from(new Set(addresses.concat(newAddressesapi, newAddressescsv)));
+			const uniqueAddresses = Array.from(new Set(addresses.concat(newAddressesapi, newAddressescsv).filter(item => item && item.trim())));
 
 			let notlsresponseBody;
 			if ((noTLS == 'true' && 协议类型 == atob(`\u0056\u006b\u0078\u0046\u0055\u0031\u004d\u003d`)) || 协议类型 == 'VMess') {
 				const newAddressesnotlsapi = await 整理优选列表(addressesnotlsapi);
 				const newAddressesnotlscsv = await 整理测速结果('FALSE');
-				const uniqueAddressesnotls = Array.from(new Set(addressesnotls.concat(newAddressesnotlsapi, newAddressesnotlscsv)));
+				const uniqueAddressesnotls = Array.from(new Set(addressesnotls.concat(newAddressesnotlsapi, newAddressesnotlscsv).filter(item => item && item.trim())));
 
 				notlsresponseBody = uniqueAddressesnotls.map(address => {
 					let port = "-1";
