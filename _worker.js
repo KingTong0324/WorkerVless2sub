@@ -509,6 +509,18 @@ export default {
 		if (env.ADDAPI) addressesapi = await 整理(env.ADDAPI);
 		if (env.ADDNOTLS) addressesnotls = await 整理(env.ADDNOTLS);
 		if (env.ADDNOTLSAPI) addressesnotlsapi = await 整理(env.ADDNOTLSAPI);
+		function moveHttpUrls(sourceArray, targetArray) {
+			if (!Array.isArray(sourceArray) || sourceArray.length === 0) return sourceArray || [];
+			const httpRegex = /^https?:\/\//i;
+			const httpUrls = sourceArray.filter(item => httpRegex.test(item));
+			if (httpUrls.length > 0) {
+				targetArray.push(...httpUrls);
+				return sourceArray.filter(item => !httpRegex.test(item));
+			}
+			return sourceArray;
+		}
+		addresses = moveHttpUrls(addresses, addressesapi);
+		addressesnotls = moveHttpUrls(addressesnotls, addressesnotlsapi);
 		if (env.ADDCSV) addressescsv = await 整理(env.ADDCSV);
 		DLS = Number(env.DLS) || DLS;
 		remarkIndex = Number(env.CSVREMARK) || remarkIndex;
@@ -959,6 +971,7 @@ export default {
 						//"Content-Disposition": `attachment; filename*=utf-8''${encodeURIComponent(FileName)}; filename=${FileName}`,
 						"content-type": "text/plain; charset=utf-8",
 						"Profile-Update-Interval": `${SUBUpdateTime}`,
+						"Profile-web-page-url": url.origin,
 						//"Subscription-Userinfo": `upload=${UD}; download=${UD}; total=${total}; expire=${expire}`,
 					},
 				});
@@ -986,6 +999,7 @@ export default {
 					"Content-Disposition": `attachment; filename*=utf-8''${encodeURIComponent(FileName)}; filename=${FileName}`,
 					"content-type": "text/plain; charset=utf-8",
 					"Profile-Update-Interval": `${SUBUpdateTime}`,
+					"Profile-web-page-url": url.origin,
 					//"Subscription-Userinfo": `upload=${UD}; download=${UD}; total=${total}; expire=${expire}`,
 				},
 			});
